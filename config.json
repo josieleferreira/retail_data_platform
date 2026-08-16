@@ -1,0 +1,10 @@
+{
+  "recognized_order_status": ["paid"],
+  "recognized_return_status": ["completed"],
+  "forecast_top_products": 50,
+  "forecast_horizon_months": 3,
+  "forecast_test_months": 6,
+  "recommendations_per_product": 5,
+  "random_seed": 42
+}
+

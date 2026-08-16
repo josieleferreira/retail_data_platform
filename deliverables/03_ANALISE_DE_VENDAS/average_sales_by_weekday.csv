@@ -1,0 +1,8 @@
+weekday,weekday_name,avg_daily_sales,days,zero_sales_days
+0,Domingo,381660.7153150685,365,0
+1,Segunda-feira,377355.8108219178,365,0
+2,Terça-feira,395018.9187945206,365,0
+3,Quarta-feira,391580.34016393445,366,1
+4,Quinta-feira,379106.10975409835,366,0
+5,Sexta-feira,384120.2715342466,365,2
+6,Sábado,376895.77117808216,365,1

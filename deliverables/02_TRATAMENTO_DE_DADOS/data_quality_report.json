@@ -1,0 +1,243 @@
+{
+  "summary": {
+    "tables": 24,
+    "rows": 433424,
+    "duplicate_primary_keys": 0,
+    "foreign_key_orphans": 0
+  },
+  "tables": {
+    "addresses": {
+      "rows": 3998,
+      "columns": 12,
+      "duplicate_primary_key": 0,
+      "null_cells": 2351
+    },
+    "attributes": {
+      "rows": 8,
+      "columns": 3,
+      "duplicate_primary_key": 0,
+      "null_cells": 0
+    },
+    "brands": {
+      "rows": 12,
+      "columns": 6,
+      "duplicate_primary_key": 0,
+      "null_cells": 5
+    },
+    "categories": {
+      "rows": 14,
+      "columns": 7,
+      "duplicate_primary_key": 0,
+      "null_cells": 3
+    },
+    "customers": {
+      "rows": 2000,
+      "columns": 11,
+      "duplicate_primary_key": 0,
+      "null_cells": 2664
+    },
+    "employees": {
+      "rows": 15,
+      "columns": 11,
+      "duplicate_primary_key": 0,
+      "null_cells": 13
+    },
+    "fiscal_invoices": {
+      "rows": 34365,
+      "columns": 11,
+      "duplicate_primary_key": 0,
+      "null_cells": 0
+    },
+    "goods_receipt_items": {
+      "rows": 4733,
+      "columns": 4,
+      "duplicate_primary_key": 0,
+      "null_cells": 0
+    },
+    "goods_receipts": {
+      "rows": 1548,
+      "columns": 6,
+      "duplicate_primary_key": 0,
+      "null_cells": 1471
+    },
+    "locations": {
+      "rows": 6,
+      "columns": 14,
+      "duplicate_primary_key": 0,
+      "null_cells": 3
+    },
+    "order_items": {
+      "rows": 147320,
+      "columns": 8,
+      "duplicate_primary_key": 0,
+      "null_cells": 0
+    },
+    "orders": {
+      "rows": 48998,
+      "columns": 13,
+      "duplicate_primary_key": 0,
+      "null_cells": 24131
+    },
+    "payments": {
+      "rows": 53546,
+      "columns": 9,
+      "duplicate_primary_key": 0,
+      "null_cells": 12327
+    },
+    "product_suppliers": {
+      "rows": 1520,
+      "columns": 8,
+      "duplicate_primary_key": 0,
+      "null_cells": 28
+    },
+    "product_variants": {
+      "rows": 1009,
+      "columns": 12,
+      "duplicate_primary_key": 0,
+      "null_cells": 157
+    },
+    "products": {
+      "rows": 500,
+      "columns": 10,
+      "duplicate_primary_key": 0,
+      "null_cells": 10
+    },
+    "purchase_order_items": {
+      "rows": 6059,
+      "columns": 6,
+      "duplicate_primary_key": 0,
+      "null_cells": 0
+    },
+    "purchase_orders": {
+      "rows": 2000,
+      "columns": 13,
+      "duplicate_primary_key": 0,
+      "null_cells": 287
+    },
+    "return_items": {
+      "rows": 1384,
+      "columns": 7,
+      "duplicate_primary_key": 0,
+      "null_cells": 1024
+    },
+    "returns": {
+      "rows": 980,
+      "columns": 10,
+      "duplicate_primary_key": 0,
+      "null_cells": 7
+    },
+    "stock_levels": {
+      "rows": 6054,
+      "columns": 5,
+      "duplicate_primary_key": 0,
+      "null_cells": 6054
+    },
+    "stock_movements": {
+      "rows": 115312,
+      "columns": 11,
+      "duplicate_primary_key": 0,
+      "null_cells": 173752
+    },
+    "suppliers": {
+      "rows": 25,
+      "columns": 12,
+      "duplicate_primary_key": 0,
+      "null_cells": 12
+    },
+    "variant_attribute_values": {
+      "rows": 2018,
+      "columns": 3,
+      "duplicate_primary_key": 0,
+      "null_cells": 8
+    }
+  },
+  "foreign_keys": [
+    {
+      "relationship": "addresses.customer_id->customers.id",
+      "orphans": 0
+    },
+    {
+      "relationship": "orders.customer_id->customers.id",
+      "orphans": 0
+    },
+    {
+      "relationship": "orders.salesperson_id->employees.id",
+      "orphans": 0
+    },
+    {
+      "relationship": "orders.location_id->locations.id",
+      "orphans": 0
+    },
+    {
+      "relationship": "order_items.order_id->orders.id",
+      "orphans": 0
+    },
+    {
+      "relationship": "order_items.product_variant_id->product_variants.id",
+      "orphans": 0
+    },
+    {
+      "relationship": "product_variants.product_id->products.id",
+      "orphans": 0
+    },
+    {
+      "relationship": "products.brand_id->brands.id",
+      "orphans": 0
+    },
+    {
+      "relationship": "products.category_id->categories.id",
+      "orphans": 0
+    },
+    {
+      "relationship": "payments.order_id->orders.id",
+      "orphans": 0
+    },
+    {
+      "relationship": "fiscal_invoices.order_id->orders.id",
+      "orphans": 0
+    },
+    {
+      "relationship": "returns.order_id->orders.id",
+      "orphans": 0
+    },
+    {
+      "relationship": "return_items.return_id->returns.id",
+      "orphans": 0
+    },
+    {
+      "relationship": "return_items.order_item_id->order_items.id",
+      "orphans": 0
+    },
+    {
+      "relationship": "purchase_order_items.purchase_order_id->purchase_orders.id",
+      "orphans": 0
+    },
+    {
+      "relationship": "purchase_order_items.product_variant_id->product_variants.id",
+      "orphans": 0
+    },
+    {
+      "relationship": "stock_levels.product_variant_id->product_variants.id",
+      "orphans": 0
+    },
+    {
+      "relationship": "stock_levels.location_id->locations.id",
+      "orphans": 0
+    },
+    {
+      "relationship": "stock_movements.product_variant_id->product_variants.id",
+      "orphans": 0
+    },
+    {
+      "relationship": "stock_movements.location_id->locations.id",
+      "orphans": 0
+    }
+  ],
+  "checks": {
+    "order_amount_mismatches": 0,
+    "item_amount_mismatches": 0,
+    "missing_reorder_point_pct": 100.0,
+    "min_order_date": "2020-01-01 01:19:28",
+    "max_order_date": "2026-12-31 23:43:09"
+  }
+}

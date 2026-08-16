@@ -1,0 +1,10 @@
+{
+  "files.exclude": {
+    "**/__pycache__": true,
+    "**/*.pyc": true
+  },
+  "python.analysis.extraPaths": [
+    "${workspaceFolder}/src"
+  ]
+}
+
