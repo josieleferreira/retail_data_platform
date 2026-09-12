@@ -4,6 +4,10 @@
 
 Plataforma de Dados para Varejo Multicanal
 
+## Imagem sugerida
+
+Use `assets/portfolio-cover.png` como imagem do card no Google Sites.
+
 ## Descrição
 
 O projeto Retail Data Platform teve como objetivo transformar 24 fontes operacionais em uma solução integrada de Engenharia de Dados, Analytics e Ciência de Dados. A arquitetura contempla ingestão de arquivos CSV, padronização de tipos, validações de qualidade e construção de marts SQL em memória, preservando a rastreabilidade das fontes sem manter cópias intermediárias.
@@ -14,9 +18,8 @@ Na frente de Ciência de Dados, foi construído um modelo de previsão mensal pa
 
 Por fim, os resultados foram consolidados em um dashboard executivo e acompanhados por documentação de arquitetura, regras de negócio, linhagem, testes e limitações. A versão pública foi anonimizada e não contém os arquivos brutos nem dados pessoais de clientes.
 
-Acesse o projeto: [GitHub](https://github.com/josieleferreira/retail-data-platform)
+Acesse o projeto: [GitHub](https://github.com/josieleferreira/retail_data_platform)
 
 ## Tecnologias
 
 Python, SQL, Pandas, NumPy, SQLite, scikit-learn, Matplotlib, Seaborn e Jinja2.
-

@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from contextlib import closing
 from pathlib import Path
 import sqlite3
 import pandas as pd
@@ -19,7 +20,7 @@ def build_marts_in_memory(
     tables: dict[str, pd.DataFrame], sql_dir: Path
 ) -> dict[str, pd.DataFrame]:
     """Carrega tabelas em SQLite temporário e devolve os marts como DataFrames."""
-    with sqlite3.connect(":memory:") as connection:
+    with closing(sqlite3.connect(":memory:")) as connection:
         for name, frame in tables.items():
             output = frame.copy()
             for column in output.select_dtypes(include=["datetime", "datetimetz"]).columns:
@@ -31,4 +32,3 @@ def build_marts_in_memory(
             name: pd.read_sql_query(f"SELECT * FROM {name}", connection)
             for name in MART_NAMES
         }
-

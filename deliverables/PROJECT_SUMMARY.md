@@ -28,7 +28,7 @@ Todos os dias civis entre a primeira e a última venda foram materializados; dia
 
 ## Previsão de demandas
 
-O modelo global cobre os 50 produtos de maior giro, usa defasagens e médias móveis e foi validado nos seis meses finais. WAPE do modelo: 43,6%; baseline sazonal: 52,5%. O horizonte entregue é de três meses.
+O modelo global cobre os 50 produtos de maior giro, usa defasagens e médias móveis e foi validado nos seis meses finais. WAPE do modelo: 46,6%; baseline sazonal: 52,7%. O horizonte entregue é de três meses.
 
 ## Sistemas de recomendações
 

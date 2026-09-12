@@ -23,7 +23,7 @@ Na execução local, as fontes são lidas de `data/raw/` ou de um caminho extern
 
 ## Engenharia de Dados
 
-- `ingestion.py`: valida ou importa as 24 fontes para a área raw local, ignorada pelo Git.
+- `ingestion.py`: valida nomes e colunas obrigatórias das 24 fontes antes de importá-las para a área raw local, ignorada pelo Git.
 - `transformation.py`: limpeza e tipagem em memória.
 - `data_quality.py`: chaves, integridade referencial e reconciliações.
 - `warehouse.py`: SQLite temporário e construção dos marts em memória.

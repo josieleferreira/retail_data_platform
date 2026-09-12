@@ -1,10 +1,10 @@
 {
   "cutoff": "2026-07-01",
   "test_months": 6,
-  "mae_model": 12.150963051101847,
-  "mae_seasonal_naive": 14.623333333333333,
-  "wape_model": 0.4361436845334475,
-  "wape_seasonal_naive": 0.5248863364441254,
+  "mae_model": 12.423300308272754,
+  "mae_seasonal_naive": 14.03,
+  "wape_model": 0.46628175809856454,
+  "wape_seasonal_naive": 0.5265857625422244,
   "observations_train": 3300,
   "observations_test": 300,
   "products": 50

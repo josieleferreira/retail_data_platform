@@ -27,24 +27,35 @@ def forecast(sales: pd.DataFrame, output_dir: Path, model_dir: Path, top_n=50, h
     output_dir.mkdir(parents=True, exist_ok=True); model_dir.mkdir(parents=True, exist_ok=True)
     s = sales.copy(); s["order_date"] = pd.to_datetime(s.order_date)
     s["effective_qty"] = (s.quantity - s.refunded_qty).clip(lower=0)
-    top = s.groupby("product_id").effective_qty.sum().nlargest(top_n).index
-    monthly = (s[s.product_id.isin(top)].assign(month=s.order_date.dt.to_period("M").dt.to_timestamp())
+    monthly_all = (s.assign(month=s.order_date.dt.to_period("M").dt.to_timestamp())
                .groupby(["product_id", "product_name", "month"], as_index=False).effective_qty.sum()
                .rename(columns={"effective_qty": "demand"}))
+    if monthly_all.empty:
+        raise ValueError("Não há vendas para construir a previsão.")
+    cutoff_month = monthly_all.month.max() - pd.DateOffset(months=test_months - 1)
+    training_activity = monthly_all[monthly_all.month < cutoff_month]
+    if training_activity.empty:
+        raise ValueError("O histórico anterior ao teste é insuficiente para selecionar produtos.")
+    top = training_activity.groupby("product_id").demand.sum().nlargest(top_n).index
+    monthly = monthly_all[monthly_all.product_id.isin(top)].copy()
     months = pd.date_range(monthly.month.min(), monthly.month.max(), freq="MS")
     names = monthly[["product_id", "product_name"]].drop_duplicates()
     grid = pd.MultiIndex.from_product([top, months], names=["product_id", "month"]).to_frame(index=False)
     panel = grid.merge(names, on="product_id", how="left").merge(monthly, on=["product_id", "product_name", "month"], how="left")
     panel["demand"] = panel.demand.fillna(0)
     feat = _features(panel)
-    cutoff = feat.month.max() - pd.DateOffset(months=test_months-1)
+    cutoff = cutoff_month
     train, test = feat[feat.month < cutoff], feat[feat.month >= cutoff]
+    if train.empty or test.empty:
+        raise ValueError("As janelas de treino e teste precisam conter observações.")
     cols = ["product_id", "lag_1", "lag_2", "lag_3", "lag_6", "lag_12", "rolling_3", "rolling_6", "month_sin", "month_cos", "trend"]
     model = HistGradientBoostingRegressor(loss="poisson", max_iter=250, learning_rate=.06, max_leaf_nodes=24, l2_regularization=1.0, random_state=seed)
     model.fit(train[cols], train.demand)
     pred = np.maximum(0, model.predict(test[cols]))
     naive = test.lag_12.to_numpy()
     denom = test.demand.sum()
+    if denom <= 0:
+        raise ValueError("A demanda do período de teste deve ser maior que zero para calcular WAPE.")
     metrics = {
         "cutoff": str(cutoff.date()), "test_months": test_months,
         "mae_model": float(mean_absolute_error(test.demand, pred)),

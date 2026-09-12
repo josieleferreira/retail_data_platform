@@ -4,11 +4,53 @@ import sys
 import unittest
 from pathlib import Path
 
+import pandas as pd
+
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "src"))
 
 from retail_data_platform.data_engineering.transformation import curate
 from retail_data_platform.data_engineering.warehouse import build_marts_in_memory
+
+
+class SyntheticBusinessRulesTest(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        tables = {
+            "orders": pd.DataFrame([{
+                "id": 1, "order_number": "O-1", "placed_at": "2026-01-02",
+                "customer_id": 1, "channel": "ecommerce", "location_id": 1,
+                "status": "paid", "subtotal": 110.0, "discount_amount": 10.0, "total": 100.0,
+            }]),
+            "order_items": pd.DataFrame([{
+                "id": 1, "order_id": 1, "product_variant_id": 1,
+                "quantity": 2.0, "unit_price": 55.0, "line_total": 110.0,
+            }]),
+            "product_variants": pd.DataFrame([{"id": 1, "product_id": 1, "cost_price": 40.0}]),
+            "products": pd.DataFrame([{"id": 1, "name": "Produto A", "category_id": 1, "brand_id": 1}]),
+            "categories": pd.DataFrame([{"id": 1, "name": "Categoria A"}]),
+            "brands": pd.DataFrame([{"id": 1, "name": "Marca A"}]),
+            "customers": pd.DataFrame([{"id": 1, "legal_name": "Cliente sintético", "person_type": "PJ"}]),
+            "returns": pd.DataFrame([{"id": 1, "order_id": 1, "status": "completed", "total_refund_amount": 50.0}]),
+            "return_items": pd.DataFrame([{
+                "id": 1, "return_id": 1, "order_item_id": 1,
+                "quantity": 1.0, "action": "refund", "unit_refund_amount": 50.0,
+            }]),
+        }
+        cls.marts = build_marts_in_memory(tables, ROOT / "sql")
+
+    def test_discount_refund_and_cost_are_reconciled(self):
+        sale = self.marts["mart_sales_items"].iloc[0]
+        self.assertAlmostEqual(sale.allocated_discount, 10.0)
+        self.assertAlmostEqual(sale.refund_amount, 50.0)
+        self.assertAlmostEqual(sale.net_revenue, 50.0)
+        self.assertAlmostEqual(sale.adjusted_cogs, 40.0)
+        self.assertAlmostEqual(sale.gross_profit, 10.0)
+
+    def test_calendar_mart_contains_the_sale_date(self):
+        daily = self.marts["mart_daily_sales"]
+        self.assertEqual(len(daily), 1)
+        self.assertAlmostEqual(daily.iloc[0].net_revenue, 50.0)
 
 
 class BusinessRulesTest(unittest.TestCase):

@@ -1,5 +1,7 @@
 # Retail Data Platform
 
+![Capa do projeto Retail Data Platform](assets/portfolio-cover.png)
+
 Projeto de portfólio que demonstra uma solução ponta a ponta de **Engenharia de Dados, Analytics e Ciência de Dados** para uma operação fictícia de varejo multicanal. A implementação integra 24 fontes relacionais em CSV, aplica validações de qualidade, constrói marts analíticos e disponibiliza análises de vendas, clientes, previsão de demanda e recomendações de produtos.
 
 > Os nomes da organização e do processo que originou o estudo foram removidos. As fontes brutas não são distribuídas neste repositório e os resultados de clientes foram anonimizados.
@@ -30,7 +32,7 @@ Não há persistência de camadas intermediárias: a transformação, o banco te
 - Nenhuma chave primária duplicada ou relação órfã nas 20 chaves estrangeiras verificadas.
 - Receita líquida analisada de R$ 981,1 milhões e margem bruta estimada de 41,3% no cenário fictício.
 - Calendário diário completo, incluindo dias sem vendas no cálculo das médias semanais.
-- Modelo de previsão para os 50 produtos de maior giro, com WAPE de 43,6% contra 52,5% do baseline sazonal.
+- Modelo de previsão para os 50 produtos de maior giro no treino, com WAPE de 46,6% contra 52,7% do baseline sazonal.
 - Recomendador item a item baseado em coocorrência, com suporte, confiança e lift para auditoria.
 - Identificação de uma lacuna operacional crítica: ponto de reposição ausente em 100% dos registros de estoque.
 
@@ -39,6 +41,7 @@ Não há persistência de camadas intermediárias: a transformação, o banco te
 ### Engenharia de Dados
 
 - Ingestão segura de pasta ou ZIP.
+- Contrato explícito para nomes de fontes e colunas obrigatórias.
 - Normalização de tipos e tratamento em memória.
 - Auditoria de chaves, integridade referencial e identidades financeiras.
 - Construção de marts SQL para vendas, clientes, produtos e calendário.
@@ -64,7 +67,7 @@ Não há persistência de camadas intermediárias: a transformação, o banco te
 ## Estrutura
 
 ```text
-retail_data_platform_public/
+retail_data_platform/
 |-- data/raw/                  # fontes não incluídas no repositório público
 |-- deliverables/              # resultados agregados, gráficos e dashboard
 |-- docs/                      # arquitetura, regras, metodologia e modelagem
@@ -104,7 +107,7 @@ Disponibilize as 24 fontes compatíveis em `data/raw/` ou informe uma pasta/ZIP 
 python -m unittest discover -s tests -v
 ```
 
-Os testes dos resultados públicos funcionam sem as fontes. As reconciliações que dependem das tabelas completas são ignoradas quando os 24 CSVs não estão presentes.
+Os testes públicos usam dados sintéticos para validar ingestão, contrato de schema, normalização de tipos, segurança de ZIP, regras financeiras, marts SQL e seleção temporal da previsão. As reconciliações sobre o conjunto completo são ignoradas quando os 24 CSVs privados não estão presentes.
 
 ## Privacidade e publicação
 
@@ -129,4 +132,3 @@ Consulte [docs/PRIVACY.md](docs/PRIVACY.md) antes de publicar novas saídas.
 - [Arquitetura](docs/ARCHITECTURE.md)
 - [Metodologia e limitações](docs/METODOLOGIA.md)
 - [Texto para o Google Sites](PORTFOLIO_SITE.md)
-
