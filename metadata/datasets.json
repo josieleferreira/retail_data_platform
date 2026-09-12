@@ -1,0 +1,33 @@
+{
+  "datasets": [
+    {"name":"raw.addresses","layer":"raw","domain":"customer","owner_role":"data_engineering","steward_role":"customer_data_steward","classification":"RESTRICTED_PII","contains_pii":true,"retention_days":365,"sla":"best_effort"},
+    {"name":"raw.attributes","layer":"raw","domain":"product","owner_role":"data_engineering","steward_role":"product_data_steward","classification":"INTERNAL","contains_pii":false,"retention_days":730,"sla":"best_effort"},
+    {"name":"raw.brands","layer":"raw","domain":"product","owner_role":"data_engineering","steward_role":"product_data_steward","classification":"INTERNAL","contains_pii":false,"retention_days":730,"sla":"best_effort"},
+    {"name":"raw.categories","layer":"raw","domain":"product","owner_role":"data_engineering","steward_role":"product_data_steward","classification":"INTERNAL","contains_pii":false,"retention_days":730,"sla":"best_effort"},
+    {"name":"raw.customers","layer":"raw","domain":"customer","owner_role":"data_engineering","steward_role":"customer_data_steward","classification":"RESTRICTED_PII","contains_pii":true,"retention_days":365,"sla":"best_effort"},
+    {"name":"raw.employees","layer":"raw","domain":"workforce","owner_role":"data_engineering","steward_role":"people_data_steward","classification":"RESTRICTED_PII","contains_pii":true,"retention_days":365,"sla":"best_effort"},
+    {"name":"raw.fiscal_invoices","layer":"raw","domain":"sales","owner_role":"data_engineering","steward_role":"finance_data_steward","classification":"CONFIDENTIAL","contains_pii":false,"retention_days":1825,"sla":"best_effort"},
+    {"name":"raw.goods_receipt_items","layer":"raw","domain":"supply","owner_role":"data_engineering","steward_role":"supply_data_steward","classification":"INTERNAL","contains_pii":false,"retention_days":730,"sla":"best_effort"},
+    {"name":"raw.goods_receipts","layer":"raw","domain":"supply","owner_role":"data_engineering","steward_role":"supply_data_steward","classification":"INTERNAL","contains_pii":false,"retention_days":730,"sla":"best_effort"},
+    {"name":"raw.locations","layer":"raw","domain":"operations","owner_role":"data_engineering","steward_role":"operations_data_steward","classification":"INTERNAL","contains_pii":false,"retention_days":730,"sla":"best_effort"},
+    {"name":"raw.order_items","layer":"raw","domain":"sales","owner_role":"data_engineering","steward_role":"commercial_data_steward","classification":"CONFIDENTIAL","contains_pii":false,"retention_days":1825,"sla":"best_effort"},
+    {"name":"raw.orders","layer":"raw","domain":"sales","owner_role":"data_engineering","steward_role":"commercial_data_steward","classification":"CONFIDENTIAL","contains_pii":true,"retention_days":1825,"sla":"best_effort"},
+    {"name":"raw.payments","layer":"raw","domain":"finance","owner_role":"data_engineering","steward_role":"finance_data_steward","classification":"CONFIDENTIAL","contains_pii":false,"retention_days":1825,"sla":"best_effort"},
+    {"name":"raw.product_suppliers","layer":"raw","domain":"supply","owner_role":"data_engineering","steward_role":"supply_data_steward","classification":"INTERNAL","contains_pii":false,"retention_days":730,"sla":"best_effort"},
+    {"name":"raw.product_variants","layer":"raw","domain":"product","owner_role":"data_engineering","steward_role":"product_data_steward","classification":"CONFIDENTIAL","contains_pii":false,"retention_days":730,"sla":"best_effort"},
+    {"name":"raw.products","layer":"raw","domain":"product","owner_role":"data_engineering","steward_role":"product_data_steward","classification":"INTERNAL","contains_pii":false,"retention_days":730,"sla":"best_effort"},
+    {"name":"raw.purchase_order_items","layer":"raw","domain":"supply","owner_role":"data_engineering","steward_role":"supply_data_steward","classification":"CONFIDENTIAL","contains_pii":false,"retention_days":1825,"sla":"best_effort"},
+    {"name":"raw.purchase_orders","layer":"raw","domain":"supply","owner_role":"data_engineering","steward_role":"supply_data_steward","classification":"CONFIDENTIAL","contains_pii":false,"retention_days":1825,"sla":"best_effort"},
+    {"name":"raw.return_items","layer":"raw","domain":"sales","owner_role":"data_engineering","steward_role":"commercial_data_steward","classification":"CONFIDENTIAL","contains_pii":false,"retention_days":1825,"sla":"best_effort"},
+    {"name":"raw.returns","layer":"raw","domain":"sales","owner_role":"data_engineering","steward_role":"commercial_data_steward","classification":"CONFIDENTIAL","contains_pii":false,"retention_days":1825,"sla":"best_effort"},
+    {"name":"raw.stock_levels","layer":"raw","domain":"inventory","owner_role":"data_engineering","steward_role":"inventory_data_steward","classification":"INTERNAL","contains_pii":false,"retention_days":730,"sla":"best_effort"},
+    {"name":"raw.stock_movements","layer":"raw","domain":"inventory","owner_role":"data_engineering","steward_role":"inventory_data_steward","classification":"INTERNAL","contains_pii":false,"retention_days":730,"sla":"best_effort"},
+    {"name":"raw.suppliers","layer":"raw","domain":"supply","owner_role":"data_engineering","steward_role":"supply_data_steward","classification":"CONFIDENTIAL","contains_pii":true,"retention_days":730,"sla":"best_effort"},
+    {"name":"raw.variant_attribute_values","layer":"raw","domain":"product","owner_role":"data_engineering","steward_role":"product_data_steward","classification":"INTERNAL","contains_pii":false,"retention_days":730,"sla":"best_effort"},
+    {"name":"mart.sales_items","layer":"curated","domain":"sales","owner_role":"analytics_engineering","steward_role":"commercial_data_steward","classification":"CONFIDENTIAL","contains_pii":false,"retention_days":730,"sla":"daily"},
+    {"name":"mart.customer_360","layer":"curated","domain":"customer","owner_role":"analytics_engineering","steward_role":"customer_data_steward","classification":"RESTRICTED_PII","contains_pii":true,"retention_days":365,"sla":"daily"},
+    {"name":"public.dashboard","layer":"public","domain":"executive_analytics","owner_role":"analytics_engineering","steward_role":"commercial_data_steward","classification":"PUBLIC","contains_pii":false,"retention_days":730,"sla":"per_release"},
+    {"name":"public.forecast","layer":"public","domain":"data_science","owner_role":"data_science","steward_role":"product_data_steward","classification":"PUBLIC","contains_pii":false,"retention_days":730,"sla":"per_release"},
+    {"name":"public.recommendations","layer":"public","domain":"data_science","owner_role":"data_science","steward_role":"product_data_steward","classification":"PUBLIC","contains_pii":false,"retention_days":730,"sla":"per_release"}
+  ]
+}

@@ -14,7 +14,8 @@ O projeto organiza uma base operacional fragmentada em um fluxo reproduzível:
 flowchart LR
     A["24 fontes CSV"] --> B["Ingestão e tipagem"]
     B --> C["Validações de qualidade"]
-    C --> D["SQLite temporário em memória"]
+    C --> Q["Quality gates"]
+    Q --> D["SQLite temporário em memória"]
     D --> E["Marts SQL"]
     E --> F["EDA e Analytics"]
     E --> G["Previsão de demanda"]
@@ -22,6 +23,8 @@ flowchart LR
     F --> I["Dashboard e resultados"]
     G --> I
     H --> I
+    B --> J["Auditoria e fingerprints SHA-256"]
+    D --> K["Linhagem JSON / OpenLineage"]
 ```
 
 Não há persistência de camadas intermediárias: a transformação, o banco temporário e os marts existem somente durante a execução. Apenas resultados agregados e não identificáveis são mantidos em `deliverables/`.
@@ -46,6 +49,10 @@ Não há persistência de camadas intermediárias: a transformação, o banco te
 - Auditoria de chaves, integridade referencial e identidades financeiras.
 - Construção de marts SQL para vendas, clientes, produtos e calendário.
 - Linhagem entre fontes e análises.
+- Manifesto de execução com status, duração, contagens, schemas e fingerprints SHA-256.
+- Quality gates críticos que interrompem o pipeline e alertas não bloqueantes.
+- Catálogo com domínio, papéis responsáveis, classificação, retenção e SLA.
+- Linhagem em nível de dataset e de colunas críticas, com evento compatível com OpenLineage.
 
 ### Analytics
 
@@ -71,6 +78,8 @@ retail_data_platform/
 |-- data/raw/                  # fontes não incluídas no repositório público
 |-- deliverables/              # resultados agregados, gráficos e dashboard
 |-- docs/                      # arquitetura, regras, metodologia e modelagem
+|-- metadata/                  # catálogo, glossário, qualidade e linhagem declarada
+|-- artifacts/examples/        # evidências sanitizadas de governança
 |-- sql/                       # índices e marts analíticos
 |-- src/retail_data_platform/
 |   |-- data_engineering/
@@ -118,6 +127,16 @@ Os testes públicos usam dados sintéticos para validar ingestão, contrato de s
 
 Consulte [docs/PRIVACY.md](docs/PRIVACY.md) antes de publicar novas saídas.
 
+## Governança e auditoria
+
+Cada execução cria artefatos locais em `artifacts/runtime/`, ignorados pelo Git:
+
+- `audit/<run_id>/run_manifest.json`: etapas, status, métricas estruturais, hashes e resultados dos gates;
+- `lineage/<run_id>.json` e `.mmd`: linhagem técnica e representação Mermaid;
+- `lineage/<run_id>.openlineage.json`: evento interoperável de conclusão.
+
+Os manifestos registram somente nomes lógicos, nomes de arquivos, contagens, hashes e caminhos relativos. Valores brutos, mensagens de erro e caminhos absolutos não são persistidos. Consulte [docs/GOVERNANCE.md](docs/GOVERNANCE.md).
+
 ## Limitações
 
 - O custo utilizado é o custo cadastral atual, não o custo histórico por lote.
@@ -131,4 +150,5 @@ Consulte [docs/PRIVACY.md](docs/PRIVACY.md) antes de publicar novas saídas.
 - [Síntese técnica e analítica](deliverables/PROJECT_SUMMARY.md)
 - [Arquitetura](docs/ARCHITECTURE.md)
 - [Metodologia e limitações](docs/METODOLOGIA.md)
+- [Governança, auditoria e linhagem](docs/GOVERNANCE.md)
 - [Texto para o Google Sites](PORTFOLIO_SITE.md)

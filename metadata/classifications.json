@@ -1,0 +1,8 @@
+{
+  "classifications": {
+    "PUBLIC": "Informação agregada e aprovada para publicação.",
+    "INTERNAL": "Informação operacional de uso interno.",
+    "CONFIDENTIAL": "Informação de negócio com acesso restrito.",
+    "RESTRICTED_PII": "Dado pessoal com acesso mínimo, finalidade e retenção controlados."
+  }
+}
