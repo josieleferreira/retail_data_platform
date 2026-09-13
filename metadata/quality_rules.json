@@ -1,0 +1,44 @@
+{
+  "rules": [
+    {
+      "id": "DQ-PK-001",
+      "description": "Chaves primárias não podem estar duplicadas.",
+      "metric": "summary.duplicate_primary_keys",
+      "operator": "eq",
+      "threshold": 0,
+      "severity": "ERROR"
+    },
+    {
+      "id": "DQ-FK-001",
+      "description": "Chaves estrangeiras verificadas não podem possuir órfãos.",
+      "metric": "summary.foreign_key_orphans",
+      "operator": "eq",
+      "threshold": 0,
+      "severity": "ERROR"
+    },
+    {
+      "id": "DQ-FIN-001",
+      "description": "Subtotal menos desconto deve reconciliar com total do pedido.",
+      "metric": "checks.order_amount_mismatches",
+      "operator": "eq",
+      "threshold": 0,
+      "severity": "ERROR"
+    },
+    {
+      "id": "DQ-FIN-002",
+      "description": "Quantidade vezes preço deve reconciliar com total do item.",
+      "metric": "checks.item_amount_mismatches",
+      "operator": "eq",
+      "threshold": 0,
+      "severity": "ERROR"
+    },
+    {
+      "id": "DQ-INV-001",
+      "description": "Pontos de reposição ausentes devem ser monitorados.",
+      "metric": "checks.missing_reorder_point_pct",
+      "operator": "lte",
+      "threshold": 5,
+      "severity": "WARNING"
+    }
+  ]
+}

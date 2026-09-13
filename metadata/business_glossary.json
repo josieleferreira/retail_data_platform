@@ -1,0 +1,29 @@
+{
+  "terms": [
+    {
+      "term": "Pedido reconhecido",
+      "definition": "Pedido com status pago, elegível para reconhecimento de receita.",
+      "owner_role": "commercial_analytics"
+    },
+    {
+      "term": "Receita líquida",
+      "definition": "Valor dos itens de pedidos reconhecidos menos reembolsos concluídos.",
+      "owner_role": "commercial_analytics"
+    },
+    {
+      "term": "Lucro bruto estimado",
+      "definition": "Receita líquida menos custo cadastral atual multiplicado pela quantidade líquida.",
+      "owner_role": "finance_analytics"
+    },
+    {
+      "term": "Venda média por dia da semana",
+      "definition": "Média da receita diária em todos os dias civis do período, incluindo dias sem venda com valor zero.",
+      "owner_role": "commercial_analytics"
+    },
+    {
+      "term": "Afinidade de produto",
+      "definition": "Relação item a item estimada pela coocorrência em pedidos pagos, acompanhada de suporte, confiança e lift.",
+      "owner_role": "data_science"
+    }
+  ]
+}

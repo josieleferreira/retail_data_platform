@@ -5,7 +5,9 @@
 ```text
 data/raw/*.csv
   -> Engenharia de Dados
+     -> Contrato de fontes + fingerprint SHA-256
      -> Limpeza e tipagem em memória
+     -> Qualidade + quality gates
      -> EDA independente
      -> SQLite temporário em memória
      -> Marts SQL em memória
@@ -15,6 +17,7 @@ data/raw/*.csv
            -> Previsão de demanda
            -> Recomendação de produtos
   -> deliverables/ com resultados finais
+  -> artifacts/runtime/ com auditoria e linhagem local
 ```
 
 ## Persistência
@@ -49,3 +52,5 @@ Na execução local, as fontes são lidas de `data/raw/` ou de um caminho extern
 `orchestration/pipeline.py` executa o fluxo completo. Arquivos técnicos intermediários são criados em uma pasta temporária do sistema e descartados ao final.
 
 `orchestration/presentation.py` grava somente os resultados finais nas seis frentes e gera `DATA_LINEAGE.md` e um `DATA_SOURCES.md` em cada análise.
+
+O pacote `governance/` mantém o manifesto de execução, aplica regras de qualidade configuráveis, valida o catálogo e gera linhagem técnica em JSON, Mermaid e evento OpenLineage. Esses artefatos operacionais ficam em `artifacts/runtime/` e não são versionados; exemplos sanitizados ficam em `artifacts/examples/`.

@@ -1,0 +1,24 @@
+{
+  "job": "retail_data_platform.full_pipeline",
+  "required_outputs": ["mart.sales_items", "mart.customer_360", "public.dashboard", "public.forecast", "public.recommendations"],
+  "edges": [
+    {"input":"raw.orders","output":"mart.sales_items","transformation":"paid_order_filter"},
+    {"input":"raw.order_items","output":"mart.sales_items","transformation":"item_financial_reconciliation"},
+    {"input":"raw.product_variants","output":"mart.sales_items","transformation":"cost_enrichment"},
+    {"input":"raw.products","output":"mart.sales_items","transformation":"product_enrichment"},
+    {"input":"raw.returns","output":"mart.sales_items","transformation":"completed_refund_filter"},
+    {"input":"raw.return_items","output":"mart.sales_items","transformation":"refund_allocation"},
+    {"input":"raw.customers","output":"mart.customer_360","transformation":"customer_dimension"},
+    {"input":"mart.sales_items","output":"mart.customer_360","transformation":"customer_aggregation"},
+    {"input":"mart.sales_items","output":"public.dashboard","transformation":"business_kpi_aggregation"},
+    {"input":"mart.sales_items","output":"public.forecast","transformation":"temporal_features_and_model"},
+    {"input":"mart.sales_items","output":"public.recommendations","transformation":"paid_basket_cooccurrence"}
+  ],
+  "column_lineage": [
+    {"inputs":["raw.order_items.quantity","raw.order_items.unit_price","raw.orders.discount_amount","raw.returns.status","raw.return_items.unit_refund_amount"],"output":"mart.sales_items.net_revenue"},
+    {"inputs":["mart.sales_items.net_revenue","raw.product_variants.cost_price","raw.order_items.quantity"],"output":"mart.sales_items.gross_profit"},
+    {"inputs":["mart.sales_items.placed_at","mart.sales_items.net_revenue"],"output":"public.dashboard.monthly_revenue"},
+    {"inputs":["mart.sales_items.placed_at","mart.sales_items.quantity_net"],"output":"public.forecast.predicted_quantity"},
+    {"inputs":["raw.orders.customer_id","raw.order_items.product_variant_id"],"output":"public.recommendations.similarity"}
+  ]
+}

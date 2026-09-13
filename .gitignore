@@ -8,3 +8,4 @@ data/raw/*
 *.sqlite
 *.sqlite3
 .pytest_cache/
+artifacts/runtime/

@@ -1,0 +1,25 @@
+{
+  "schema_version": "1.0",
+  "run_id": "00000000-0000-0000-0000-000000000000",
+  "pipeline": "retail_data_platform.full_pipeline",
+  "status": "COMPLETED",
+  "sources": [
+    {
+      "dataset": "orders",
+      "file_name": "orders.csv",
+      "size_bytes": 1234,
+      "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+      "row_count": 10
+    }
+  ],
+  "quality_gates": [
+    {
+      "rule_id": "DQ-PK-001",
+      "severity": "ERROR",
+      "observed": 0,
+      "threshold": 0,
+      "passed": true
+    }
+  ],
+  "note": "Exemplo sanitizado; não representa uma execução real."
+}
