@@ -9,8 +9,12 @@ data/raw/*.csv
      -> Limpeza e tipagem em memória
      -> Qualidade + quality gates
      -> EDA independente
-     -> SQLite temporário em memória
-     -> Marts SQL em memória
+     -> DuckDB temporário
+     -> dbt build
+        -> staging
+        -> intermediate
+        -> marts
+        -> testes e documentação
         -> Analytics
            -> KPIs, rankings, gráficos e dashboard
         -> Ciência de Dados
@@ -22,14 +26,16 @@ data/raw/*.csv
 
 ## Persistência
 
-Na execução local, as fontes são lidas de `data/raw/` ou de um caminho externo. Não são criados Parquets tratados, cópias intermediárias ou banco SQLite em disco. A versão pública não distribui os CSVs; `deliverables/` contém somente resultados derivados, anonimizados e a linhagem das fontes usadas.
+Na execução local, as fontes são lidas de `data/raw/` ou de um caminho externo. Python aplica o contrato e carrega as tabelas tipadas em um arquivo DuckDB dentro da pasta temporária da execução. O `dbt build` cria e testa as camadas analíticas nesse banco descartável. Não são criadas cópias intermediárias permanentes; a versão pública não distribui os CSVs.
 
 ## Engenharia de Dados
 
 - `ingestion.py`: valida nomes e colunas obrigatórias das 24 fontes antes de importá-las para a área raw local, ignorada pelo Git.
 - `transformation.py`: limpeza e tipagem em memória.
 - `data_quality.py`: chaves, integridade referencial e reconciliações.
-- `warehouse.py`: SQLite temporário e construção dos marts em memória.
+- `dbt_warehouse.py`: carga no DuckDB temporário, execução do dbt e leitura dos marts.
+- `dbt/models/`: fontes, staging, transformações intermediárias e marts.
+- `dbt/tests/`: reconciliações financeiras, calendário e consistência entre marts.
 
 ## EDA
 

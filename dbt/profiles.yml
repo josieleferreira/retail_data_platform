@@ -1,0 +1,8 @@
+retail_data_platform:
+  target: dev
+  outputs:
+    dev:
+      type: duckdb
+      path: "{{ env_var('DBT_DUCKDB_PATH', 'retail_runtime.duckdb') }}"
+      schema: analytics
+      threads: 4

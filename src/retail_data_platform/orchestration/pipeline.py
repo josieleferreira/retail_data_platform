@@ -10,7 +10,7 @@ import os
 from ..data_engineering.ingestion import extract_source
 from ..data_engineering.transformation import curate
 from ..data_engineering.data_quality import audit
-from ..data_engineering.warehouse import build_marts_in_memory
+from ..data_engineering.dbt_warehouse import build_marts_with_dbt
 from ..eda.exploratory_analysis import analyze_eda
 from ..analytics.run_analytics import analyze
 from ..analytics.reporting import build_report
@@ -72,13 +72,19 @@ def run(source: Path, root: Path) -> None:
                     raise
                 audit_run.add_quality_gates(gate_results)
 
-            print("[6/11] Construindo marts SQL em memória...")
-            with audit_run.step("in_memory_marts"):
-                marts = build_marts_in_memory(tables, root / "sql")
+            print("[6/11] Construindo e testando marts com dbt + DuckDB...")
+            with audit_run.step("dbt_build_and_test"):
+                dbt_artifact_dir = root / "artifacts" / "runtime" / "dbt" / audit_run.run_id
+                marts = build_marts_with_dbt(
+                    tables, root / "dbt", runtime / "dbt", dbt_artifact_dir
+                )
                 for name, table in sorted(marts.items()):
                     audit_run.add_dataset(
                         name.replace("mart_", "mart."), len(table), list(table.columns)
                     )
+                for path in sorted(dbt_artifact_dir.rglob("*")):
+                    if path.is_file():
+                        audit_run.add_artifact(path, root)
 
             print("[7/11] Gerando análises de negócio...")
             with audit_run.step("business_analytics"):

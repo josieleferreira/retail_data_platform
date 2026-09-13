@@ -48,6 +48,9 @@ Uma validação automatizada impede que um dataset classificado como público se
 - JSON de linhagem com `run_id`;
 - diagrama Mermaid;
 - evento de conclusão compatível com a estrutura do OpenLineage.
+- `manifest.json` do dbt com o DAG efetivamente compilado entre sources, staging, intermediate, marts e testes.
+- `catalog.json` do dbt com relações e colunas observadas no DuckDB temporário.
+- `run_results.build.json` com o status e tempo de cada modelo e teste.
 
 A validação falha caso uma saída obrigatória não possua ao menos um upstream declarado.
 
@@ -59,7 +62,8 @@ Para auditar uma execução:
 2. verifique que todos os gates `ERROR` possuem `passed: true`;
 3. compare os SHA-256 das fontes com a execução anterior;
 4. confirme a linhagem das saídas afetadas;
-5. valide hashes e caminhos relativos dos artefatos publicados;
-6. registre e aprove exceções antes de promover a entrega.
+5. revise o `run_results.build.json` e confirme que nenhum nó dbt falhou;
+6. valide hashes e caminhos relativos dos artefatos publicados;
+7. registre e aprove exceções antes de promover a entrega.
 
 Os testes em `tests/governance/` cobrem fechamento de execuções com sucesso e falha, privacidade do manifesto, bloqueio de quality gates, completude do catálogo e cobertura da linhagem.

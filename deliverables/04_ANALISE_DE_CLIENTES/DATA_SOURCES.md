@@ -10,4 +10,4 @@ Esta análise utiliza diretamente as seguintes fontes:
 - `../../data/raw/returns.csv`
 - `../../data/raw/return_items.csv`
 
-As transformações e os marts SQL são construídos apenas em memória durante a execução.
+As transformações dbt e os marts são construídos em um DuckDB temporário durante a execução.

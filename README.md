@@ -15,8 +15,8 @@ flowchart LR
     A["24 fontes CSV"] --> B["Ingestão e tipagem"]
     B --> C["Validações de qualidade"]
     C --> Q["Quality gates"]
-    Q --> D["SQLite temporário em memória"]
-    D --> E["Marts SQL"]
+    Q --> D["DuckDB temporário"]
+    D --> E["dbt: staging, intermediate e marts"]
     E --> F["EDA e Analytics"]
     E --> G["Previsão de demanda"]
     E --> H["Recomendação de produtos"]
@@ -47,7 +47,8 @@ Não há persistência de camadas intermediárias: a transformação, o banco te
 - Contrato explícito para nomes de fontes e colunas obrigatórias.
 - Normalização de tipos e tratamento em memória.
 - Auditoria de chaves, integridade referencial e identidades financeiras.
-- Construção de marts SQL para vendas, clientes, produtos e calendário.
+- Transformações versionadas em dbt, separadas em staging, intermediate e marts.
+- Testes dbt de chaves, relacionamentos, reconciliação financeira e calendário.
 - Linhagem entre fontes e análises.
 - Manifesto de execução com status, duração, contagens, schemas e fingerprints SHA-256.
 - Quality gates críticos que interrompem o pipeline e alertas não bloqueantes.
@@ -69,7 +70,7 @@ Não há persistência de camadas intermediárias: a transformação, o banco te
 
 ## Tecnologias
 
-`Python` · `Pandas` · `NumPy` · `SQL` · `SQLite` · `scikit-learn` · `Matplotlib` · `Seaborn` · `Jinja2`
+`Python` · `dbt` · `DuckDB` · `Pandas` · `NumPy` · `SQL` · `scikit-learn` · `Matplotlib` · `Seaborn` · `Jinja2`
 
 ## Estrutura
 
@@ -80,7 +81,7 @@ retail_data_platform/
 |-- docs/                      # arquitetura, regras, metodologia e modelagem
 |-- metadata/                  # catálogo, glossário, qualidade e linhagem declarada
 |-- artifacts/examples/        # evidências sanitizadas de governança
-|-- sql/                       # índices e marts analíticos
+|-- dbt/                       # sources, staging, intermediate, marts e testes SQL
 |-- src/retail_data_platform/
 |   |-- data_engineering/
 |   |-- eda/
@@ -116,7 +117,7 @@ Disponibilize as 24 fontes compatíveis em `data/raw/` ou informe uma pasta/ZIP 
 python -m unittest discover -s tests -v
 ```
 
-Os testes públicos usam dados sintéticos para validar ingestão, contrato de schema, normalização de tipos, segurança de ZIP, regras financeiras, marts SQL e seleção temporal da previsão. As reconciliações sobre o conjunto completo são ignoradas quando os 24 CSVs privados não estão presentes.
+Os testes públicos usam dados sintéticos para validar ingestão, contrato de schema, segurança de ZIP, modelos e testes dbt, regras financeiras e seleção temporal da previsão. As reconciliações sobre o conjunto completo são ignoradas quando os 24 CSVs privados não estão presentes.
 
 ## Privacidade e publicação
 
@@ -134,6 +135,7 @@ Cada execução cria artefatos locais em `artifacts/runtime/`, ignorados pelo Gi
 - `audit/<run_id>/run_manifest.json`: etapas, status, métricas estruturais, hashes e resultados dos gates;
 - `lineage/<run_id>.json` e `.mmd`: linhagem técnica e representação Mermaid;
 - `lineage/<run_id>.openlineage.json`: evento interoperável de conclusão.
+- `dbt/<run_id>/target/`: `manifest.json`, catálogo e resultados dos modelos/testes dbt.
 
 Os manifestos registram somente nomes lógicos, nomes de arquivos, contagens, hashes e caminhos relativos. Valores brutos, mensagens de erro e caminhos absolutos não são persistidos. Consulte [docs/GOVERNANCE.md](docs/GOVERNANCE.md).
 
@@ -151,4 +153,5 @@ Os manifestos registram somente nomes lógicos, nomes de arquivos, contagens, ha
 - [Arquitetura](docs/ARCHITECTURE.md)
 - [Metodologia e limitações](docs/METODOLOGIA.md)
 - [Governança, auditoria e linhagem](docs/GOVERNANCE.md)
+- [Transformações com dbt e DuckDB](docs/DBT.md)
 - [Texto para o Google Sites](PORTFOLIO_SITE.md)

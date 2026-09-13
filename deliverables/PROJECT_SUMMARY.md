@@ -8,7 +8,7 @@ Foram avaliadas 24 tabelas e 433,424 registros. Não foram encontradas chaves pr
 
 ## Tratamento de dados
 
-Os 24 CSVs permanecem exclusivamente em `data/raw/`. Eles são tipados em memória e carregados em um SQLite temporário somente durante a execução. Os marts de vendas por item, cliente 360, desempenho de produtos e calendário diário não são persistidos. Pedidos pagos reconhecem receita; somente reembolsos concluídos são deduzidos.
+Os 24 CSVs permanecem exclusivamente em `data/raw/`. Eles são tipados em memória e carregados em um DuckDB temporário. O dbt transforma e testa as camadas staging, intermediate e marts, descartadas ao final da execução. Pedidos pagos reconhecem receita; somente reembolsos concluídos são deduzidos.
 
 ## Análise geral de vendas
 

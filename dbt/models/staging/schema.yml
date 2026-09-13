@@ -1,0 +1,76 @@
+version: 2
+
+models:
+  - name: stg_orders
+    description: Pedidos padronizados; o reconhecimento de receita ocorre posteriormente.
+    columns:
+      - name: order_id
+        data_tests: [not_null, unique]
+      - name: customer_id
+        data_tests:
+          - relationships:
+              arguments:
+                to: ref('stg_customers')
+                field: customer_id
+      - name: order_status
+        data_tests: [not_null]
+      - name: placed_at
+        data_tests: [not_null]
+  - name: stg_order_items
+    description: Itens de pedidos com valores financeiros tipados.
+    columns:
+      - name: order_item_id
+        data_tests: [not_null, unique]
+      - name: order_id
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_orders')
+                field: order_id
+      - name: product_variant_id
+        data_tests:
+          - relationships:
+              arguments:
+                to: ref('stg_product_variants')
+                field: product_variant_id
+  - name: stg_product_variants
+    columns:
+      - name: product_variant_id
+        data_tests: [not_null, unique]
+      - name: product_id
+        data_tests:
+          - relationships:
+              arguments:
+                to: ref('stg_products')
+                field: product_id
+  - name: stg_products
+    columns:
+      - name: product_id
+        data_tests: [not_null, unique]
+  - name: stg_customers
+    columns:
+      - name: customer_id
+        data_tests: [not_null, unique]
+  - name: stg_categories
+    columns:
+      - name: category_id
+        data_tests: [not_null, unique]
+  - name: stg_brands
+    columns:
+      - name: brand_id
+        data_tests: [not_null, unique]
+  - name: stg_returns
+    columns:
+      - name: return_id
+        data_tests: [not_null, unique]
+  - name: stg_return_items
+    columns:
+      - name: return_item_id
+        data_tests: [not_null, unique]
+      - name: return_id
+        data_tests:
+          - relationships:
+              arguments:
+                to: ref('stg_returns')
+                field: return_id

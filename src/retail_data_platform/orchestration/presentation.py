@@ -74,7 +74,7 @@ def organize_deliverables(root: Path, runtime: Path, analysis: dict, forecast: d
     for folder, names in source_map.items():
         lines = ["# Bases utilizadas", "", "Esta análise utiliza diretamente as seguintes fontes:", ""]
         lines.extend(f"- `../../data/raw/{name}`" for name in names)
-        lines.extend(["", "As transformações e os marts SQL são construídos apenas em memória durante a execução.", ""])
+        lines.extend(["", "As transformações dbt e os marts são construídos em um DuckDB temporário durante a execução.", ""])
         (folder / "DATA_SOURCES.md").write_text("\n".join(lines), encoding="utf-8")
         lineage_sections.extend([f"## {folder.name}", ""])
         lineage_sections.extend(f"- `data/raw/{name}`" for name in names)
@@ -86,7 +86,7 @@ def organize_deliverables(root: Path, runtime: Path, analysis: dict, forecast: d
     top_loss = analysis["losses"].iloc[0]
     top_customer = analysis["top_customers"].iloc[0]
     readmes = {
-        treatment_dir: """# Tratamento de dados\n\nEsta frente contém o relatório de qualidade, regras de negócio e dicionário dos marts. O código correspondente está em `src/retail_data_platform/data_engineering/` e o SQL em `sql/`. Os dados tratados e os marts existem apenas em memória.\n""",
+        treatment_dir: """# Tratamento de dados\n\nEsta frente contém o relatório de qualidade, regras de negócio e dicionário dos marts. A ingestão está em `src/retail_data_platform/data_engineering/` e as transformações em `dbt/`. O DuckDB e os marts são temporários.\n""",
         sales_dir: f"""# Análise de vendas\n\nReceita líquida: **{_brl(m['net_revenue'])}**. Lucro bruto: **{_brl(m['gross_profit'])}**. Margem: **{_pct(m['margin_pct'])}**. Inclui série mensal, canais, prejuízos e média semanal com dias sem venda.\n""",
         customers_dir: f"""# Análise de clientes\n\nO ranking usa lucro acumulado. O primeiro colocado é **{top_customer.customer_label}**, com **{_brl(top_customer.gross_profit)}** de lucro bruto estimado. Os rótulos foram anonimizados para publicação.\n""",
         demand_dir: f"""# Previsão de demandas\n\nO backtest temporal obteve WAPE de **{_pct(forecast['metrics']['wape_model'])}**, contra **{_pct(forecast['metrics']['wape_seasonal_naive'])}** do baseline sazonal. A pasta contém avaliação e previsão de três meses.\n""",
@@ -105,7 +105,7 @@ Foram avaliadas {quality['summary']['tables']} tabelas e {quality['summary']['ro
 
 ## Tratamento de dados
 
-Os 24 CSVs permanecem exclusivamente em `data/raw/`. Eles são tipados em memória e carregados em um SQLite temporário somente durante a execução. Os marts de vendas por item, cliente 360, desempenho de produtos e calendário diário não são persistidos. Pedidos pagos reconhecem receita; somente reembolsos concluídos são deduzidos.
+Os 24 CSVs permanecem exclusivamente em `data/raw/`. Eles são tipados em memória e carregados em um DuckDB temporário. O dbt transforma e testa as camadas staging, intermediate e marts, descartadas ao final da execução. Pedidos pagos reconhecem receita; somente reembolsos concluídos são deduzidos.
 
 ## Análise geral de vendas
 
