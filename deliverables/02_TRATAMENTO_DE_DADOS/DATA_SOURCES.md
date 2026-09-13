@@ -27,4 +27,4 @@ Esta análise utiliza diretamente as seguintes fontes:
 - `../../data/raw/suppliers.csv`
 - `../../data/raw/variant_attribute_values.csv`
 
-As transformações e os marts SQL são construídos apenas em memória durante a execução.
+As transformações dbt e os marts são construídos em um DuckDB temporário durante a execução.

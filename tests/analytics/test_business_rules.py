@@ -10,7 +10,7 @@ ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "src"))
 
 from retail_data_platform.data_engineering.transformation import curate
-from retail_data_platform.data_engineering.warehouse import build_marts_in_memory
+from retail_data_platform.data_engineering.dbt_warehouse import build_marts_with_dbt
 
 
 class SyntheticBusinessRulesTest(unittest.TestCase):
@@ -37,7 +37,18 @@ class SyntheticBusinessRulesTest(unittest.TestCase):
                 "quantity": 1.0, "action": "refund", "unit_refund_amount": 50.0,
             }]),
         }
-        cls.marts = build_marts_in_memory(tables, ROOT / "sql")
+        from tempfile import TemporaryDirectory
+        cls._temporary = TemporaryDirectory()
+        temporary = Path(cls._temporary.name)
+        cls.dbt_artifacts = temporary / "artifacts" / "target"
+        cls.marts = build_marts_with_dbt(
+            tables, ROOT / "dbt", temporary / "runtime", temporary / "artifacts",
+            generate_docs=False,
+        )
+
+    @classmethod
+    def tearDownClass(cls):
+        cls._temporary.cleanup()
 
     def test_discount_refund_and_cost_are_reconciled(self):
         sale = self.marts["mart_sales_items"].iloc[0]
@@ -52,6 +63,10 @@ class SyntheticBusinessRulesTest(unittest.TestCase):
         self.assertEqual(len(daily), 1)
         self.assertAlmostEqual(daily.iloc[0].net_revenue, 50.0)
 
+    def test_dbt_build_artifacts_are_generated(self):
+        self.assertTrue((self.dbt_artifacts / "manifest.json").exists())
+        self.assertTrue((self.dbt_artifacts / "run_results.build.json").exists())
+
 
 class BusinessRulesTest(unittest.TestCase):
     @classmethod
@@ -60,7 +75,17 @@ class BusinessRulesTest(unittest.TestCase):
         if len(source_files) != 24:
             raise unittest.SkipTest("As fontes completas não são distribuídas no repositório público.")
         cls.tables = curate(source_files)
-        cls.marts = build_marts_in_memory(cls.tables, ROOT / "sql")
+        from tempfile import TemporaryDirectory
+        cls._temporary = TemporaryDirectory()
+        temporary = Path(cls._temporary.name)
+        cls.marts = build_marts_with_dbt(
+            cls.tables, ROOT / "dbt", temporary / "runtime", temporary / "artifacts",
+            generate_docs=False,
+        )
+
+    @classmethod
+    def tearDownClass(cls):
+        cls._temporary.cleanup()
 
     def test_sales_only_paid_orders(self):
         paid_ids = set(self.tables["orders"].loc[self.tables["orders"].status == "paid", "id"])

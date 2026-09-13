@@ -1,0 +1,39 @@
+version: 2
+
+sources:
+  - name: raw
+    description: Fontes operacionais tipadas em memória pelo Python e carregadas no DuckDB temporário.
+    schema: raw
+    meta:
+      owner_role: data_engineering
+      classification: INTERNAL
+      persisted: false
+    tables:
+      - name: addresses
+      - name: attributes
+      - name: brands
+      - name: categories
+      - name: customers
+        meta: {classification: RESTRICTED_PII}
+      - name: employees
+        meta: {classification: RESTRICTED_PII}
+      - name: fiscal_invoices
+      - name: goods_receipt_items
+      - name: goods_receipts
+      - name: locations
+      - name: order_items
+      - name: orders
+        meta: {classification: CONFIDENTIAL}
+      - name: payments
+      - name: product_suppliers
+      - name: product_variants
+      - name: products
+      - name: purchase_order_items
+      - name: purchase_orders
+      - name: return_items
+      - name: returns
+      - name: stock_levels
+      - name: stock_movements
+      - name: suppliers
+        meta: {classification: RESTRICTED_PII}
+      - name: variant_attribute_values

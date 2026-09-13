@@ -9,3 +9,8 @@ data/raw/*
 *.sqlite3
 .pytest_cache/
 artifacts/runtime/
+dbt/target/
+dbt/logs/
+dbt/*.duckdb
+dbt_packages/
+dbt/.user.yml

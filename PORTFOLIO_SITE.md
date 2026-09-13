@@ -10,7 +10,7 @@ Use `assets/portfolio-cover.png` como imagem do card no Google Sites.
 
 ## Descrição
 
-O projeto Retail Data Platform teve como objetivo transformar 24 fontes operacionais em uma solução integrada de Engenharia de Dados, Analytics e Ciência de Dados. A arquitetura contempla ingestão de arquivos CSV, padronização de tipos, validações de qualidade e construção de marts SQL em memória, preservando a rastreabilidade das fontes sem manter cópias intermediárias.
+O projeto Retail Data Platform teve como objetivo transformar 24 fontes operacionais em uma solução integrada de Engenharia de Dados, Analytics e Ciência de Dados. A arquitetura contempla ingestão de arquivos CSV, padronização de tipos e transformações com dbt sobre DuckDB temporário, preservando a rastreabilidade das fontes sem manter cópias intermediárias permanentes.
 
 Na etapa analítica, foram desenvolvidos indicadores de vendas, rentabilidade de produtos, desempenho por canal e valor de clientes. Também foi criada uma dimensão calendário para incluir dias sem movimentação nas médias semanais, evitando distorções e tornando os indicadores mais confiáveis para a tomada de decisão.
 
@@ -22,4 +22,4 @@ Acesse o projeto: [GitHub](https://github.com/josieleferreira/retail_data_platfo
 
 ## Tecnologias
 
-Python, SQL, Pandas, NumPy, SQLite, scikit-learn, Matplotlib, Seaborn e Jinja2.
+Python, dbt, DuckDB, SQL, Pandas, NumPy, scikit-learn, Matplotlib, Seaborn e Jinja2.

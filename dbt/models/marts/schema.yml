@@ -1,0 +1,36 @@
+version: 2
+
+models:
+  - name: mart_sales_items
+    description: Uma linha por item de pedido pago, com desconto e reembolso alocados.
+    meta: {owner_role: analytics_engineering, classification: CONFIDENTIAL}
+    columns:
+      - name: order_item_id
+        description: Chave do item de pedido.
+        data_tests: [not_null, unique]
+      - name: order_id
+        data_tests: [not_null]
+      - name: net_revenue
+        description: Receita após desconto alocado e reembolso concluído.
+        data_tests: [not_null]
+      - name: gross_profit
+        description: Receita líquida menos custo cadastral ajustado à quantidade líquida.
+        data_tests: [not_null]
+  - name: mart_customer_360
+    description: Métricas de compra por cliente; acesso restrito por conter identificação na execução privada.
+    meta: {owner_role: analytics_engineering, classification: RESTRICTED_PII}
+    columns:
+      - name: customer_id
+        data_tests: [not_null, unique]
+  - name: mart_product_performance
+    description: Rentabilidade e devoluções agregadas por produto.
+    meta: {owner_role: analytics_engineering, classification: CONFIDENTIAL}
+    columns:
+      - name: product_id
+        data_tests: [not_null, unique]
+  - name: mart_daily_sales
+    description: Calendário completo com dias sem vendas preenchidos com zero.
+    meta: {owner_role: analytics_engineering, classification: INTERNAL}
+    columns:
+      - name: date
+        data_tests: [not_null, unique]

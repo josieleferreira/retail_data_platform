@@ -4,7 +4,8 @@
 
 1. **Raw:** os 24 CSVs são lidos de uma área local não versionada ou de um caminho externo.
 2. **Transformação:** nomes, espaços, datas, booleanos, inteiros e decimais são tratados em memória.
-3. **SQL temporário:** as fontes são carregadas em SQLite `:memory:` e os índices existem somente durante a execução.
+3. **Transformação dbt:** as fontes tipadas são carregadas em um DuckDB temporário e transformadas nas camadas staging, intermediate e marts.
+4. **Testes dbt:** chaves, relacionamentos, identidades financeiras e continuidade do calendário são validados antes das análises.
 4. **Marts em memória:** vendas por item, cliente 360, desempenho de produto e calendário diário completo.
 5. **Data Science:** previsão global de demanda e recomendação item-a-item.
 6. **Consumo:** somente resultados analíticos anonimizados e o dashboard permanecem em `deliverables/`.
