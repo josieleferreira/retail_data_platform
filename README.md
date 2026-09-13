@@ -154,4 +154,3 @@ Os manifestos registram somente nomes lógicos, nomes de arquivos, contagens, ha
 - [Metodologia e limitações](docs/METODOLOGIA.md)
 - [Governança, auditoria e linhagem](docs/GOVERNANCE.md)
 - [Transformações com dbt e DuckDB](docs/DBT.md)
-- [Texto para o Google Sites](PORTFOLIO_SITE.md)
